@@ -40,7 +40,7 @@ function xmlFeedView({ title, items }) {
 
 <description>item.description</description>
 
-<link>${item.url}</link>
+<link><![CDATA[${item.url}]]></link>
 
 </item>
 `
