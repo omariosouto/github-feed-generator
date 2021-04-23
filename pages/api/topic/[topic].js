@@ -31,20 +31,23 @@ function xmlFeedView({ title, items }) {
     function entry(item) {
         return (
 `<item>
+
 <pubDate>Tue, 13 Apr 2020 11:11:11 GMT</pubDate>
 <index>${item.index}</index>
 <title>${item.title}</title>
 <author>item.author</author>
+
 <description>item.description</description>
+
 <link>${item.url}</link>
-</item>`
+
+</item>
+`
         )
     }
 
     return (
-`
-<?xml version="1.0" encoding="UTF-8"?>
-
+`<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 
 <channel>
