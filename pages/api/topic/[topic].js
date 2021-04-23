@@ -1,16 +1,19 @@
 async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
     const url = `https://api.github.com/search/repositories?q=${topic}&per_page=100&page=${currentPage}`;
-
+    
+    console.log('getRepositoriesByTopic.url', url);
     const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-omariosouto.vercel.app/';
-    const response = await fetch(`${BASE_URL}/api/github?url=${url}`);
-    const { items } = await response.json();
-    const paginationItems = response.headers.get('link')?.split(',');
+    const response = await fetch(`${BASE_URL}/api/github?url=${url.replace(/\&/gi, '_____')}&teste=true`);
+    const { data, headers } = await response.json();
+    const paginationItems = headers.link?.split(',');
     const nextPageItem = paginationItems?.find((link) => link.includes('rel="next"'));
     const hasNextURL = Boolean(nextPageItem);
-    const allCurrentItems = [ ...totalItems, ...items ];
+    const requestItems = data.items || [];
+    const allCurrentItems = [ ...totalItems, ...requestItems ];
     
     if(hasNextURL) {
-        return await getRepositoriesByTopic(topic, currentPage + 1, allCurrentItems)
+        const nextPage = currentPage + 1;
+        return await getRepositoriesByTopic(topic, nextPage, allCurrentItems)
     }
 
 

@@ -1,5 +1,7 @@
 export default async function handler(req, res) {
-    const response = await fetch(req.query.url, {
+    console.log('req.query', req.query);
+    const receivedUrl = req.query.url.replace(/\_\_\_\_\_/gi, '&');
+    const response = await fetch(receivedUrl, {
         headers: {
             authorization: `token ${process.env.GITHUB_TOKEN}`,
         }
@@ -10,5 +12,14 @@ export default async function handler(req, res) {
         's-maxage=31536000, immutable'
     );
 
-    res.json(await response.json());
+    const headers = [...response.headers.entries()].reduce((acc,[key, value]) => ({
+        ...acc,
+        [key]: value
+    }), {});
+
+
+    res.json({
+        headers,
+        data: await response.json(),
+    });
 }
