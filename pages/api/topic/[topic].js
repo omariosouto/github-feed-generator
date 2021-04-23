@@ -1,11 +1,8 @@
 async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
-    const url = `https://api.github.com/search/repositories?q=${topic}&per_page=10&page=${currentPage}`;
+    const url = `https://api.github.com/search/repositories?q=${topic}&per_page=100&page=${currentPage}`;
 
-    const response = await fetch(url, {
-        headers: {
-            authorization: `token ${process.env.GITHUB_TOKEN}`,
-        }
-    });
+    const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-omariosouto.vercel.app/';
+    const response = await fetch(`${BASE_URL}/api/github?url=${url}`);
     const { items } = await response.json();
     const paginationItems = response.headers.get('link')?.split(',');
     const nextPageItem = paginationItems?.find((link) => link.includes('rel="next"'));
@@ -68,10 +65,12 @@ function xmlFeedView({ title, items }) {
 
 export default async function handler(req,res) {
     const { topic } = req.query;
-
-    res.setHeader('Content-Type', 'text/xml')
-
+    
+    res.setHeader('Content-Type', 'text/xml');
+    res.setHeader(
+        'Cache-Control',
+        's-maxage=31536000, immutable'
+    );
     const items = await getRepositoriesByTopic(topic);
-
     res.end(xmlFeedView({ items, title: `Repositories by Topic: "${topic}"` }));
 }
