@@ -2,7 +2,7 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
     const url = `https://api.github.com/search/repositories?q=${topic}&per_page=100&page=${currentPage}`;
     
     const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-omariosouto.vercel.app/';
-    const fetchURL = `${BASE_URL}/api/github?url=${url.replace(/\&/gi, '_____')}&teste=true`;
+    const fetchURL = `${BASE_URL}/api/github?url=${url.replace(/\&/gi, '_____')}&v=1`;
     // console.log('/api/topic/[topicname] [fetchURL]', fetchURL);
     const response = await fetch(fetchURL);
     const { data, headers } = await response.json();
@@ -22,7 +22,7 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
         return {
             index,
             title: item.full_name,
-            url: item.html_url,
+            url: item.homepage || item.html_url,
         }
     });
 }
