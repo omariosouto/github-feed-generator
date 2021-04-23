@@ -30,26 +30,34 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
 function xmlFeedView({ title, items }) {
     function entry(item) {
         return (
-`
-<item>
+`<item>
+<pubDate>Tue, 13 Apr 2020 11:11:11 GMT</pubDate>
 <index>${item.index}</index>
 <title>${item.title}</title>
 <author>item.author</author>
 <description>item.description</description>
-<link rel="alternate" href="${item.url}"/>
-</item>
-`
+<link>${item.url}</link>
+</item>`
         )
     }
 
     return (
-`<?xml version="1.0" encoding="UTF-8"?>
+`
+<?xml version="1.0" encoding="UTF-8"?>
+
 <rss version="2.0">
+
 <channel>
-    <title>GitHub Topic: ${title}</title>
-    <author>GitHub Topic: ${title}</author>
+    
+<title>GitHub Topic: ${title}
+</title>
+    
+<author>GitHub Topic: ${title}
+</author>
     ${items.map(entry).join('')}
+
 </channel>
+
 </rss>`
     )
 }
