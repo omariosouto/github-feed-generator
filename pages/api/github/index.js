@@ -1,11 +1,11 @@
 export default async function handler(req, res) {
-    console.log('req.query', req.query);
     const receivedUrl = req.query.url.replace(/\_\_\_\_\_/gi, '&');
     const response = await fetch(receivedUrl, {
         headers: {
             authorization: `token ${process.env.GITHUB_TOKEN}`,
         }
     });
+    // console.log('/api/github [receivedUrl]', receivedUrl);
 
     res.setHeader(
         'Cache-Control',
