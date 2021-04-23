@@ -1,7 +1,11 @@
 async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
     const url = `https://api.github.com/search/repositories?q=${topic}&per_page=10&page=${currentPage}`;
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+        headers: {
+            authorization: `token ${process.env.GITHUB_TOKEN}`,
+        }
+    });
     const { items } = await response.json();
     const paginationItems = response.headers.get('link')?.split(',');
     const nextPageItem = paginationItems?.find((link) => link.includes('rel="next"'));
