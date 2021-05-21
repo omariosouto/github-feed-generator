@@ -1,7 +1,7 @@
 async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
     const url = `https://api.github.com/search/repositories?q=${topic}&per_page=100&page=${currentPage}&sort=committer-date&order=desc`;
     
-    const BASE_URL = process.env.NODE_ENV !== 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-theta.vercel.app';
+    const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-theta.vercel.app';
     const fetchURL = `${BASE_URL}/api/github?url=${url.replace(/\&/gi, '_____')}&v=3`;
     console.error('fetchURL', fetchURL);
     const response = await fetch(fetchURL);
