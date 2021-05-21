@@ -17,6 +17,8 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
         return await getRepositoriesByTopic(topic, nextPage, allCurrentItems)
     }
 
+    console.log('[allCurrentItems]', allCurrentItems.length);
+
 
     return allCurrentItems.map((item, index) => {
         return {
