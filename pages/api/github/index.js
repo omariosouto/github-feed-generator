@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
         'Cache-Control',
-        's-maxage=31536000, immutable'
+        's-maxage=86400, immutable'
     );
 
     const headers = [...response.headers.entries()].reduce((acc,[key, value]) => ({
