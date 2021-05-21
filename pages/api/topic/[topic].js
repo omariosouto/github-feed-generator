@@ -77,6 +77,14 @@ export default async function handler(req,res) {
         'Cache-Control',
         's-maxage=86400, immutable'
     );
-    const items = await getRepositoriesByTopic(topic);
-    res.end(xmlFeedView({ items, title: `Repositories by Topic: "${topic}"` }));
+    try {
+        const items = await getRepositoriesByTopic(topic);
+        res.end(xmlFeedView({ items, title: `Repositories by Topic: "${topic}"` }));
+    } catch(err) {
+        res.end({
+            error: err.message,
+            errorText: JSON.stringify(err)
+        })
+    }
+
 }
