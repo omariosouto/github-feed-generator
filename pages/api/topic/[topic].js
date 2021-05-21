@@ -3,7 +3,7 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
     
     const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://github-feed-generator-omariosouto.vercel.app/';
     const fetchURL = `${BASE_URL}/api/github?url=${url.replace(/\&/gi, '_____')}&v=3`;
-    // console.log('/api/topic/[topicname] [fetchURL]', fetchURL);
+    console.error('fetchURL', fetchURL);
     const response = await fetch(fetchURL);
     const { data, headers } = await response.json();
     const paginationItems = headers.link?.split(',');
@@ -17,7 +17,7 @@ async function getRepositoriesByTopic(topic, currentPage = 1, totalItems = []) {
         return await getRepositoriesByTopic(topic, nextPage, allCurrentItems)
     }
 
-    console.log('[allCurrentItems]', allCurrentItems.length);
+    console.error('[allCurrentItems]', allCurrentItems.length);
 
 
     return allCurrentItems.map((item, index) => {
