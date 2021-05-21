@@ -73,7 +73,7 @@ export default async function handler(req,res) {
     res.setHeader('Content-Type', 'text/xml');
     res.setHeader(
         'Cache-Control',
-        's-maxage=31536000, immutable'
+        's-maxage=86400, immutable'
     );
     const items = await getRepositoriesByTopic(topic);
     res.end(xmlFeedView({ items, title: `Repositories by Topic: "${topic}"` }));
